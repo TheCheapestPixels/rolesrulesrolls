@@ -4,7 +4,7 @@
 # with open("rules/rolls.toml", 'r') as f:
 #     ROLLS = toml.loads(f.read())
 
-from rrr import Actor
+from rrr import enact
 
 
 class Stat():
@@ -23,7 +23,7 @@ class Stat():
 # Some examples for actions
 
 def use_main_hand(state):
-    state['tool'] = state['initiator'].stats['inventory_main_hand']
+    state['tool'] = state['initiator']['inventory_main_hand']
     #from pprint import pprint
     #pprint(tool.stats)
     #pprint(target.stats)
@@ -31,16 +31,18 @@ def use_main_hand(state):
     # FIXME: We should find the common functionality, but for now we
     # will assume shanking.
     action = 'attack'
-    action_func = state['tool'].stats['_actions'][action]
+    action_func = state['tool']['_actions'][action]
     action_func(state)
 
 
 def shank(state):
-    state['follow_up_hit'] = state['target'].act(
+    state['follow_up_hit'] = enact(
+        state['target'],
         'get_hit',
-        damage=state['tool'].stats['damage'],
+        damage=state['tool']['damage'],
     )
-    state['follow_up_exp'] = state['initiator'].act(
+    state['follow_up_exp'] = enact(
+        state['initiator'],
         'gain_experience',
         skill='skill_melee_attack',
         increase=1,
@@ -48,13 +50,13 @@ def shank(state):
 
 
 def handle_damage(state):
-    state['initiator'].stats['attribute_health'].adjust(
+    state['initiator']['attribute_health'].adjust(
         -state['damage'],
     )
 
 
 def increase_skill(state):
-    state['initiator'].stats[state['skill']].adjust(state['increase'])
+    state['initiator'][state['skill']].adjust(state['increase'])
 
 
 if __name__ == '__main__':
@@ -74,8 +76,8 @@ if __name__ == '__main__':
             inventory_main_hand=None,
             inventory_torso=None,
         )
-    char_a = Actor(char_stats())
-    char_b = Actor(char_stats())
+    char_a = char_stats()
+    char_b = char_stats()
 
     def screwdriver_stats():
         return dict(
@@ -88,8 +90,8 @@ if __name__ == '__main__':
             ),
             damage=2,
         )
-    screwdriver = Actor(screwdriver_stats())
-    char_a.set_stat('inventory_main_hand', screwdriver)
+    screwdriver = screwdriver_stats()
+    char_a['inventory_main_hand'] = screwdriver
 
     def electric_socket():
         return dict(
@@ -98,15 +100,19 @@ if __name__ == '__main__':
             ),
             status_is_closed=True,
         )
-    socket = Actor(electric_socket())
+    socket = electric_socket()
     
     def attack():
         from pprint import pprint
-        report = char_a.act('default_act', target=char_b)
-        print(f"Target health {char_b.stats['attribute_health']}, "
-              f"Attacker skill {char_a.stats['skill_melee_attack']}")
+        report = enact(
+            char_a,
+            'default_act',
+            target=char_b,
+        )
+        print(f"Target health {char_b['attribute_health']}, "
+              f"Attacker skill {char_a['skill_melee_attack']}")
         pprint(report)
 
-    for _ in range(3):
+    for _ in range(1):
         attack()
     # char_a.act('default_act', target=socket)
