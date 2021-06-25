@@ -1,0 +1,22 @@
+character:
+  _roles:
+    attacker: None
+    attackee: None
+  _actions:
+    default_act: use_main_hand
+    get_hit: handle_damage
+    gain_experience: increase_skill
+  attribute_health: [Stat, 10]
+  skill_melee_attack: [Stat, 0]
+  inventory_main_hand: None
+  inventory_torso: None
+screwdriver:
+  _actions:
+    attack: shank
+  _roles:
+    into_main_hand_takeable: None
+  damage: 2
+electric_socket:
+  _roles:
+    screwable: None,
+  status_is_closed: true

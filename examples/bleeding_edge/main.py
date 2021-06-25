@@ -5,9 +5,11 @@
 #     ROLLS = toml.loads(f.read())
 
 from rrr import enact
+from rrr import RoleLoader
 
 
 class Stat():
+    _name = 'Stat'
     def __init__(self, level):
         self.level = level
         self.maximum = 10
@@ -60,47 +62,24 @@ def increase_skill(state):
 
 
 if __name__ == '__main__':
-    def char_stats():
-        return dict(
-            _roles=dict(
-                attacker=None,
-                attackee=None,
-            ),
-            _actions=dict(
-                default_act=use_main_hand,
-                get_hit=handle_damage,
-                gain_experience=increase_skill,
-            ),
-            attribute_health=Stat(10),
-            skill_melee_attack=Stat(0),
-            inventory_main_hand=None,
-            inventory_torso=None,
-        )
-    char_a = char_stats()
-    char_b = char_stats()
+    roles = RoleLoader(
+        actions=[
+            use_main_hand,
+            handle_damage,
+            increase_skill,
+            shank,
+        ],
+        attributes=[
+            Stat,
+        ],
+    )
+    with open('roles.yaml', 'r') as f:
+        roles.load(f)
 
-    def screwdriver_stats():
-        return dict(
-            _actions=dict(
-                unscrew=None,
-                attack=shank,
-            ),
-            _roles=dict(
-                into_main_hand_takeable=None,  # FIXME: Only an example.
-            ),
-            damage=2,
-        )
-    screwdriver = screwdriver_stats()
-    char_a['inventory_main_hand'] = screwdriver
-
-    def electric_socket():
-        return dict(
-            _roles=dict(
-                screwable=None,
-            ),
-            status_is_closed=True,
-        )
-    socket = electric_socket()
+    char_a = roles.create('character')
+    char_b = roles.create('character')
+    char_a['inventory_main_hand'] = roles.create('screwdriver')
+    socket = roles.create('electric_socket')
     
     def attack():
         from pprint import pprint
@@ -111,8 +90,7 @@ if __name__ == '__main__':
         )
         print(f"Target health {char_b['attribute_health']}, "
               f"Attacker skill {char_a['skill_melee_attack']}")
-        pprint(report)
 
-    for _ in range(1):
+    for _ in range(15):
         attack()
     # char_a.act('default_act', target=socket)
