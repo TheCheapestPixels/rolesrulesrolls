@@ -1,9 +1,9 @@
 import yaml
 
 
-def enact(actor, action, **kwargs):
-    func = actor['actor'][action]
-    state = dict(initiator=actor, **kwargs)
+def enact(_actor, _role, _action, **kwargs):
+    func = _actor[_role][_action]
+    state = dict(initiator=_actor, **kwargs)
     func(state)
     return state
 

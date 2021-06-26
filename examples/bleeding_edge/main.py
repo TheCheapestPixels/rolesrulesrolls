@@ -38,11 +38,13 @@ def use_main_hand(state):
 def shank(state):
     state['follow_up_hit'] = enact(
         state['target'],
+        'attackee',
         'get_hit',
         damage=state['tool']['weapon']['damage'],
     )
     state['follow_up_exp'] = enact(
         state['initiator'],
+        'character',
         'gain_experience',
         role='attacker',
         skill='skill_melee_attack',
@@ -94,6 +96,7 @@ if __name__ == '__main__':
         from pprint import pprint
         report = enact(
             char_a,
+            'actor',
             'default_act',
             target=char_b,
         )

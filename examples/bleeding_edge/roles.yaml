@@ -1,8 +1,8 @@
 character:
   actor:
     default_act: use_main_hand
+  character:
     gain_experience: increase_skill
-    get_hit: handle_damage
   carrier:
     inventory_main_hand: None
     inventory_torso: None
@@ -10,6 +10,7 @@ character:
     skill_melee_attack: [Stat, 0]
   attackee:
     attribute_health: [Stat, 10]
+    get_hit: handle_damage
 screwdriver:
   weapon:
     attack: shank
