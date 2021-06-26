@@ -12,6 +12,12 @@ class Stat():
     def adjust(self, delta):
         self.level = max(min(self.level + delta, self.maximum), 0)
 
+    def increase(self, delta):
+        self.adjust(delta)
+
+    def decrease(self, delta):
+        self.adjust(-delta)
+
     def __repr__(self):
         return f'{self.level} / {self.maximum}'
 
@@ -20,8 +26,11 @@ class Stat():
 
 def use_main_hand(state):
     state['tool'] = state['initiator']['inventory_main_hand']
-    # FIXME: We should find the common functionality, but for now we
-    # will assume shanking.
+    # TODO:
+    # * We know 'initiator', 'tool', and 'target', now we need to
+    #   * choose the appropriate action (here ['weapon']['attack'] or
+    #     ['tool']['screw'])
+    #   * request a decision from the game in case of ambiguity
     action_func = state['tool']['weapon']['attack']
     action_func(state)
 
@@ -43,12 +52,12 @@ def shank(state):
 
 def handle_damage(state):
     health = state['initiator']['attackee']['attribute_health']
-    health.adjust(-state['damage'])
+    health.decrease(state['damage'])
 
 
 def increase_skill(state):
     skill = state['initiator'][state['role']][state['skill']]
-    skill.adjust(state['increase'])
+    skill.increase(state['increase'])
 
 
 def screw(state):
