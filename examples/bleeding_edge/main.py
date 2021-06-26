@@ -1,9 +1,3 @@
-# import toml
-# 
-# 
-# with open("rules/rolls.toml", 'r') as f:
-#     ROLLS = toml.loads(f.read())
-
 from rrr import enact
 from rrr import RoleLoader
 
@@ -26,10 +20,6 @@ class Stat():
 
 def use_main_hand(state):
     state['tool'] = state['initiator']['inventory_main_hand']
-    #from pprint import pprint
-    #pprint(tool.stats)
-    #pprint(target.stats)
-
     # FIXME: We should find the common functionality, but for now we
     # will assume shanking.
     action = 'attack'
