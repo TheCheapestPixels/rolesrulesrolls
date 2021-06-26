@@ -22,8 +22,7 @@ def use_main_hand(state):
     state['tool'] = state['initiator']['inventory_main_hand']
     # FIXME: We should find the common functionality, but for now we
     # will assume shanking.
-    action = 'attack'
-    action_func = state['tool']['_actions'][action]
+    action_func = state['tool']['weapon']['attack']
     action_func(state)
 
 
@@ -31,25 +30,34 @@ def shank(state):
     state['follow_up_hit'] = enact(
         state['target'],
         'get_hit',
-        damage=state['tool']['damage'],
+        damage=state['tool']['weapon']['damage'],
     )
     state['follow_up_exp'] = enact(
         state['initiator'],
         'gain_experience',
+        role='attacker',
         skill='skill_melee_attack',
         increase=1,
     )
 
 
 def handle_damage(state):
-    state['initiator']['attribute_health'].adjust(
-        -state['damage'],
-    )
+    health = state['initiator']['attackee']['attribute_health']
+    health.adjust(-state['damage'])
 
 
 def increase_skill(state):
-    state['initiator'][state['skill']].adjust(state['increase'])
+    skill = state['initiator'][state['role']][state['skill']]
+    skill.adjust(state['increase'])
 
+
+def screw(state):
+    pass
+    
+
+def flip_status(state):
+    pass
+    
 
 if __name__ == '__main__':
     roles = RoleLoader(
@@ -58,6 +66,8 @@ if __name__ == '__main__':
             handle_damage,
             increase_skill,
             shank,
+            screw,
+            flip_status,
         ],
         attributes=[
             Stat,
@@ -78,8 +88,8 @@ if __name__ == '__main__':
             'default_act',
             target=char_b,
         )
-        print(f"Target health {char_b['attribute_health']}, "
-              f"Attacker skill {char_a['skill_melee_attack']}")
+        print(f"Target health {char_b['attackee']['attribute_health']}, "
+              f"Attacker skill {char_a['attacker']['skill_melee_attack']}")
 
     for _ in range(15):
         attack()

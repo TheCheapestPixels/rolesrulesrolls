@@ -1,22 +1,24 @@
 character:
-  _roles:
-    attacker: None
-    attackee: None
-  _actions:
+  actor:
     default_act: use_main_hand
-    get_hit: handle_damage
     gain_experience: increase_skill
-  attribute_health: [Stat, 10]
-  skill_melee_attack: [Stat, 0]
-  inventory_main_hand: None
-  inventory_torso: None
+    get_hit: handle_damage
+  carrier:
+    inventory_main_hand: None
+    inventory_torso: None
+  attacker:
+    skill_melee_attack: [Stat, 0]
+  attackee:
+    attribute_health: [Stat, 10]
 screwdriver:
-  _actions:
+  weapon:
     attack: shank
-  _roles:
-    into_main_hand_takeable: None
-  damage: 2
+    damage: 2
+  tool:
+    screw: screw
+  prop:
+    into_main_hand_takeable: true
 electric_socket:
-  _roles:
-    screwable: None,
-  status_is_closed: true
+  toolable:
+    screwable: flip_status
+    status_is_closed: true
