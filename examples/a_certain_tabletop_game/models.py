@@ -1,88 +1,37 @@
-class ModelStatMovement:
+from rrr import Attribute
+
+
+class ModelStatMovement(Attribute):
     _name = 'ModelStatMovement'
-    def __init__(self, actor_loader, value):
-        print(f"Partially implemented role {self._name} used")
-        self.value = value
-
-    def __repr__(self):
-        return f'{self.value}"'
 
 
-class ModelStatWeaponSkill:
+class ModelStatWeaponSkill(Attribute):
     _name = 'ModelStatWeaponSkill'
-    def __init__(self, actor_loader, value):
-        print(f"Partially implemented role {self._name} used")
-        self.value = value
-
-    def __repr__(self):
-        return f'{self.value}+'
 
 
-class ModelStatBallisticSkill:
+class ModelStatBallisticSkill(Attribute):
     _name = 'ModelStatBallisticSkill'
-    def __init__(self, actor_loader, value):
-        print(f"Partially implemented role {self._name} used")
-        self.value = value
-
-    def __repr__(self):
-        return f'{self.value}+'
 
 
-class ModelStatStrength:
+class ModelStatStrength(Attribute):
     _name = 'ModelStatStrength'
-    def __init__(self, actor_loader, value):
-        print(f"Partially implemented role {self._name} used")
-        self.value = value
-
-    def __repr__(self):
-        return f'{self.value}'
 
 
-class ModelStatToughness:
+class ModelStatToughness(Attribute):
     _name = 'ModelStatToughness'
-    def __init__(self, actor_loader, value):
-        print(f"Partially implemented role {self._name} used")
-        self.value = value
-
-    def __repr__(self):
-        return f'{self.value}'
 
 
-class ModelStatWounds:
+class ModelStatWounds(Attribute):
     _name = 'ModelStatWounds'
-    def __init__(self, actor_loader, value):
-        print(f"Partially implemented role {self._name} used")
-        self.value = value
-
-    def __repr__(self):
-        return f'{self.value}'
 
 
-class ModelStatAttacks:
+class ModelStatAttacks(Attribute):
     _name = 'ModelStatAttacks'
-    def __init__(self, actor_loader, value):
-        print(f"Partially implemented role {self._name} used")
-        self.value = value
-
-    def __repr__(self):
-        return f'{self.value}'
 
 
-class ModelStatLeadership:
+class ModelStatLeadership(Attribute):
     _name = 'ModelStatLeadership'
-    def __init__(self, actor_loader, value):
-        print(f"Partially implemented role {self._name} used")
-        self.value = value
-
-    def __repr__(self):
-        return f'{self.value}'
 
 
-class ModelStatSave:
+class ModelStatSave(Attribute):
     _name = 'ModelStatSave'
-    def __init__(self, actor_loader, value):
-        print(f"Partially implemented role {self._name} used")
-        self.value = value
-
-    def __repr__(self):
-        return f'{self.value}'

@@ -4,7 +4,7 @@ from rrr import Attribute
 class WeaponRange(Attribute):
     _name = 'WeaponRange'
 
-    def load(self, value):
+    def load(self, loader, value):
         assert isinstance(value, int)
         return value
 
@@ -15,7 +15,7 @@ class WeaponRange(Attribute):
 class WeaponType(Attribute):
     _name = 'WeaponType'
 
-    def load(self, value):
+    def load(self, loader, value):
         weapon_types = [
             'assault',
             'rapid_fire',
@@ -33,7 +33,7 @@ class WeaponType(Attribute):
 class WeaponAttacks(Attribute):
     _name = 'WeaponAttacks'
 
-    def load(self, value):
+    def load(self, loader, value):
         # TODO: int, d<n>
         assert isinstance(value, (str, int))
         return value
@@ -55,7 +55,7 @@ class WeaponAttacks(Attribute):
 class WeaponStrength(Attribute):
     _name = 'WeaponStrength'
 
-    def load(self, value):
+    def load(self, loader, value):
         assert isinstance(value, int) or value in ['user', 'x2']
         return value
 
@@ -63,7 +63,7 @@ class WeaponStrength(Attribute):
 class WeaponArmorPenetration(Attribute):
     _name = 'WeaponArmorPenetration'
 
-    def load(self, value):
+    def load(self, loader, value):
         assert isinstance(value, int)
         return value
 
@@ -71,7 +71,7 @@ class WeaponArmorPenetration(Attribute):
 class WeaponDamage(Attribute):
     _name = 'WeaponDamage'
 
-    def load(self, value):
+    def load(self, loader, value):
         assert isinstance(value, int) or value in ['d3', 'd6']
         return value
 
@@ -79,7 +79,7 @@ class WeaponDamage(Attribute):
 class WeaponAbilities(Attribute):
     _name = 'WeaponAbilities'
 
-    def load(self, value=None):
+    def load(self, loader, value=None):
         existing_abilities = ['blast']
         if value is None:
             value = []

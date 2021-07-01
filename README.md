@@ -8,8 +8,6 @@ to edit these rules in YAML.
 TODO
 ----
 
-* A good default rule for choosing actions needs to be put into place;
-  see `examples/bleeding_edge/main.py:use_main_hand`.
 * When the rules need input from the enveloping game, a request should
   be made, and it being answered should resume rule execution. This
   could be done using a callback in the state, or maybe by using
@@ -17,7 +15,6 @@ TODO
 * YAMLization
   * The Python functions that implement actions need to become
     YAML-defined.
-  * And the classes that define attributes need to be YAMLized, too.
 * There needs to be a YAML files that defines how to make rolls and how
   to interpret their results.
 * Serialization: Turn actors into YAML again.

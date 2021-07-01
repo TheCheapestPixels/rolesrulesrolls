@@ -14,10 +14,18 @@
 class Attribute:
     _name = None
     def __init__(self, loader, *args, **kwargs):
-        self.value = self.load(*args, **kwargs)
+        self.value = self.load(loader, *args, **kwargs)
 
     def __repr__(self):
         return f'{self._name}({self.value})'
+
+    def load(self, loader, *args, **kwargs):
+        print(f"WARNING: No loader implemented on {self._name}! "
+              "Defaulting to args[0]")
+        if not args and not kwargs:
+            return None
+        else:
+            return args[0]
 
 
 class Actions:

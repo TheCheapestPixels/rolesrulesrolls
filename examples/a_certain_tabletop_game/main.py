@@ -27,36 +27,6 @@ class Actions(BaseActions):
     _actions = existing_actions
 
 
-class Stat:
-    _name = 'Stat'
-    def __init__(self, level):
-        self.level = level
-        self.maximum = level
-        self.overflow = False # Maximum is hard limit
-
-    def adjust(self, delta):
-        self.level = max(min(self.level + delta, self.maximum), 0)
-
-    def increase(self, delta):
-        self.adjust(delta)
-
-    def decrease(self, delta):
-        self.adjust(-delta)
-
-    def __repr__(self):
-        return f'{self.level} / {self.maximum}'
-
-
-# class :
-#     _name = ''
-#     def __init__(self, actor_loader, value):
-#         print(f"Partially implemented role {self._name} used")
-#         self.value = value
-# 
-#     def __repr__(self):
-#         return f'{self.value}'
-
-
 if __name__ == '__main__':
     import yaml
     with open('roles.yaml', 'r') as f:
