@@ -1,0 +1,37 @@
+grunt:
+  actor<actor:
+    actions:
+    - attack
+    - get_hit
+  stats<model_stats:
+    movement: 6
+    weapon_skill: 6
+    ballistic_skill: 6
+    strength: 3
+    toughness: 3
+    wounds: 1
+    attacks: 1
+    leadership: 3
+    save: 7
+  equipment<equipment:
+    weapons:
+    - laser_rifle
+    - fragmentation_grenade
+laser_rifle:
+  only<attack_profile:
+    range: 24
+    type: rapid_fire
+    attacks: 1
+    strength: 3
+    armor_penetration: 0
+    damage: 1
+fragmentation_grenade:
+  only<attack_profile:
+    range: 6
+    type: grenade
+    attacks: d6
+    strength: 3
+    armor_penetration: 0
+    damage: 1
+    abilities:
+    - blast

@@ -14,8 +14,10 @@ TODO
   be made, and it being answered should resume rule execution. This
   could be done using a callback in the state, or maybe by using
   `yield`.
-* The Python functions that implement actions need to become
-  YAML-defined.
+* YAMLization
+  * The Python functions that implement actions need to become
+    YAML-defined.
+  * And the classes that define attributes need to be YAMLized, too.
 * There needs to be a YAML files that defines how to make rolls and how
   to interpret their results.
 * Serialization: Turn actors into YAML again.

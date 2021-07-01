@@ -1,0 +1,31 @@
+# Basic combat rules between models
+actor:
+  actions: Actions
+
+# A model has a set of attributes
+model_stats:
+  movement: ModelStatMovement
+  weapon_skill: ModelStatWeaponSkill
+  ballistic_skill: ModelStatBallisticSkill
+  strength: ModelStatStrength
+  toughness: ModelStatToughness
+  wounds: ModelStatWounds
+  attacks: ModelStatAttacks
+  leadership: ModelStatLeadership
+  save: ModelStatSave
+
+# A model can have different kinds of equipment
+equipment:
+  weapons: EquipmentWeapons
+  items: EquipmentItems
+  relic: EquipmentRelic
+
+# A weapon has one or more attack profiles
+attack_profile:
+  range: WeaponRange
+  type: WeaponType
+  attacks: WeaponAttacks
+  strength: WeaponStrength
+  armor_penetration: WeaponArmorPenetration
+  damage: WeaponDamage
+  abilities: WeaponAbilities
