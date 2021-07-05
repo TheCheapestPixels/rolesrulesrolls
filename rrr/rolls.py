@@ -57,6 +57,20 @@ all_throw_rules = {
 
 ### The actual functions.
 def throw(num_dice=1, dice_rules=None, throw_rules=None):
+    """
+    t = throw(
+        num_dice=20,
+        dice_rules=dict(
+            roll_dice=6,
+            threshold=4,
+            one_always_fails=None,
+            may_reroll_failed=None,
+        ),
+        throw_rules=dict(
+            count_successes,
+        ),
+    )
+    """
     if throw_rules is None:
         throw_rules = {}
     if dice_rules is None:
@@ -80,15 +94,3 @@ def roll(rules):
         else:
             all_dice_rules[rule_name](dice, rule_arg)
     return dice
-
-t = throw(
-    num_dice=20,
-    dice_rules=dict(
-        roll_dice=6,
-        threshold=4,
-        one_always_fails=None,
-        may_reroll_failed=None,
-    ),
-)
-import pprint
-pprint.pprint (t)
