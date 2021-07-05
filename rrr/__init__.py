@@ -1,3 +1,6 @@
+from .rolls import throw
+
+
 # class Actor:
 #     def __init__(self, name, roles):
 #         self.name = name
@@ -20,29 +23,50 @@ class Attribute:
         return f'{self._name}({self.value})'
 
     def load(self, loader, *args, **kwargs):
-        print(f"WARNING: No loader implemented on {self._name}! "
-              "Defaulting to args[0]")
+        print(f"WARNING: No loader implemented on {self._name}!")
         if not args and not kwargs:
             return None
         else:
             return args[0]
 
 
+class NumericalAttribute(Attribute):
+    def __lt__(self, other):
+        return self.value < other
+
+    def __le__(self, other):
+        return self.value <= other
+
+    def __eq__(self, other):
+        return self.value == other
+
+    def __ne__(self, other):
+        return self.value != other
+
+    def __gt__(self, other):
+        return self.value > other
+
+    def __ge__(self, other):
+        return self.value >= other
+
+
 class Actions:
     _name = 'Actions'
     _actions = {}
-    def __init__(self, actor_loader, actions):
+    def __init__(self, loader, actions):
+        self.loader = loader
         assert all(a in self._actions for a in actions)
         self.actions = {an: self._actions[an] for an in actions}
 
     def act(self, action, state):
-        return self.actions[action](state)
+        return self.actions[action](self.loader, state)
 
     def __repr__(self):
         if not self.actions:
-            return '-'
+            text = '-'
         else:
-            return ', '.join(a for a in self.actions.keys())
+            text = ', '.join(a for a in self.actions.keys())
+        return f"{self._name}({text})"
 
 
 def act(_actor, _action, **kwargs):
@@ -94,3 +118,6 @@ class ActorLoader:
                 role[field_name] = field_value
             actor[role_name] = role
         return actor
+
+    def roll(self, **kwargs):
+        return throw(**kwargs)

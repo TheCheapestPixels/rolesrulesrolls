@@ -1,23 +1,24 @@
 from rrr import Attribute
+from rrr import NumericalAttribute
 
 
 class ModelStatMovement(Attribute):
     _name = 'ModelStatMovement'
 
 
-class ModelStatWeaponSkill(Attribute):
+class ModelStatWeaponSkill(NumericalAttribute):
     _name = 'ModelStatWeaponSkill'
 
 
-class ModelStatBallisticSkill(Attribute):
+class ModelStatBallisticSkill(NumericalAttribute):
     _name = 'ModelStatBallisticSkill'
 
 
-class ModelStatStrength(Attribute):
+class ModelStatStrength(NumericalAttribute):
     _name = 'ModelStatStrength'
 
 
-class ModelStatToughness(Attribute):
+class ModelStatToughness(NumericalAttribute):
     _name = 'ModelStatToughness'
 
 

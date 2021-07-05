@@ -1,31 +1,43 @@
-def rule_ranged_attack(state):
-    skill = state['initiator']['stats']['ballistic_skill']
-    state['attack_sequence']['attack_skill'] = skill
+def rule_ranged_attack(loader, state):
+    state['attack_sequence']['weapon'] = state['weapon']  # FIXME: Request from user instead.
+    state['attack_sequence']['profile'] = state['profile']  # FIXME: Request from user instead.
+    state['attack_sequence']['distance'] = state['distance']  # FIXME: Request from env instead.
+    state['attack_sequence']['line_of_sight'] = state['line_of_sight']  # FIXME: Request from env instead.
+    
+    state['attack_sequence']['attack_skill'] = state['initiator']['stats']['ballistic_skill']
+    state['attack_sequence']['attack_profile'] = state['initiator']['equipment']['weapons'].select(state['weapon'])[state['profile']]
+    state['attack_sequence']['attacks'] = state['attack_sequence']['attack_profile']['attacks'].contextual_attacks(state)
+    state['attack_sequence']['hit_roll'] = loader.roll(
+        num_dice=state['attack_sequence']['attacks'],  # FIXME: Multiply with `hit dice per attack`
+        dice_rules=dict(
+            roll_dice=6,
+            threshold=state['attack_sequence']['attack_skill'],
+            one_always_fails=None,
+        ),
+        throw_rules=dict(
+            count_successes=None,
+        ),
+    )
+    # TODO: Accumulate hits
+    #import pdb; pdb.set_trace()
+    if state['attack_sequence']['hit_roll']['successes'] >= 1:
+        #state['attack_sequence']['wound_threshold'] = 
+        state['attack_sequence']['wound_roll'] = loader.roll(
+            num_dice=state['attack_sequence']['attacks'],
+            dice_rules=dict(
+                roll_dice=6,
+                threshold=4,
+                one_always_fails=None,
+            ),
+        )
 
-    weapons = state['initiator']['equipment']['weapons']
-    state['attack_sequence']['attack_profile'] = weapons.select('laser_rifle')['only']
 
-    # TODO: How far are the units apart?
-    state['attack_sequence']['distance'] = 10
-    # TODO: Does line of sight exist?
-    state['attack_sequence']['line_of_sight'] = True
-
-    # state['contextual_attacks']
-    attack_stat = state['attack_sequence']['attack_profile']['attacks']
-    attacks = attack_stat.contextual_attacks(state)
-    state['attack_sequence']['attacks'] = attacks
-
-
-    import pdb; pdb.set_trace()
-    pass
-
-
-def action_attack(state):
+def action_attack(loader, state):
     state['attack_sequence'] = {}
-    rule_ranged_attack(state)
+    rule_ranged_attack(loader, state)
 
 
-def action_get_hit(state):
+def action_get_hit(loader, state):
     pass
 
 

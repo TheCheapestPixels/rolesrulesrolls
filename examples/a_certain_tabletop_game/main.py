@@ -1,3 +1,5 @@
+import crayons
+
 from rrr import act
 from rrr import ActorLoader
 from rrr import Actions as BaseActions
@@ -27,13 +29,66 @@ class Actions(BaseActions):
     _actions = existing_actions
 
 
+class TextInterface:
+    def __init__(self, loader):
+        self.loader = loader
+        self.grunt_1 = loader.create('grunt')
+        self.grunt_2 = loader.create('grunt')
+
+    def run(self):
+        print("grount 1 attacks grunt 2")
+        callbacks = {'choose_dice': self.choose_dice}
+        report = act(
+            self.grunt_1,
+            'attack',
+            target=self.grunt_2,
+            # TODO: Let the user / environment choose these.
+            weapon='laser_rifle',  # User choice
+            profile='only',  # User choice
+            distance=10,  # Environmental
+            line_of_sight=True,  # Environmental
+            callbacks=callbacks,
+        )
+        self.print_attack_report(report['attack_sequence'])
+
+    def print_attack_report(self, attack_sequence):
+        hit_roll = attack_sequence['hit_roll']
+        num_dice = hit_roll['num_dice']
+        dice = {idx: hit_roll[idx] for idx in range(num_dice)}
+
+        dice_indices = range(num_dice)
+        dice_id_strings = []
+        dice_value_strings = []
+        for d_idx in dice_indices:
+            d = dice[d_idx]
+            dice_id_strings.append(
+                '{}'.format(crayons.white('{:2d}'.format(d_idx))),
+            )
+            if not d.get('success', False):
+                dice_value_strings.append(
+                    '{}'.format(crayons.red('{:2d}'.format(d['face']))),
+                )
+            else:
+                dice_value_strings.append(
+                    '{}'.format(crayons.green('{:2d}'.format(d['face']))),
+                )
+        print("#dice: {}".format(' '.join(dice_id_strings)))
+        print("roll : {}".format(' '.join(dice_value_strings)))
+        import pdb; pdb.set_trace()
+        pass
+
+    def choose_dice(self, state):
+        import pdb; pdb.set_trace()
+        pass
+
+
 if __name__ == '__main__':
     import yaml
     with open('roles.yaml', 'r') as f:
         roles_specs = yaml.safe_load(f)
     with open('actors.yaml', 'r') as f:
         actor_specs = yaml.safe_load(f)
-    actor_loader = ActorLoader(
+    loader = ActorLoader(
         actor_specs,
         roles_specs,
         role_classes=[
@@ -62,8 +117,5 @@ if __name__ == '__main__':
 
     #laser_rifle = actor_loader.create('laser_rifle')
     #grenade = actor_loader.create('fragmentation_grenade')
-    grunt_1 = actor_loader.create('grunt')
-    grunt_2 = actor_loader.create('grunt')
-    report = act(grunt_1, 'attack', target=grunt_2)
-    import pdb; pdb.set_trace()
-    pass
+    interface = TextInterface(loader)
+    interface.run()
