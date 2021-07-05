@@ -10,7 +10,7 @@ def rule_ranged_attack(loader, state):
     state['attack_sequence']['hit_roll'] = loader.roll(
         num_dice=state['attack_sequence']['attacks'],  # FIXME: Multiply with `hit dice per attack`
         dice_rules=dict(
-            roll_dice=6,
+            dice_type=6,
             threshold=state['attack_sequence']['attack_skill'],
             one_always_fails=None,
         ),
@@ -25,7 +25,7 @@ def rule_ranged_attack(loader, state):
         state['attack_sequence']['wound_roll'] = loader.roll(
             num_dice=state['attack_sequence']['attacks'],
             dice_rules=dict(
-                roll_dice=6,
+                dice_type=6,
                 threshold=4,
                 one_always_fails=None,
             ),

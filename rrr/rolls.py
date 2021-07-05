@@ -3,7 +3,7 @@ import random
 
 ### Dice rules, which affect each dice as it is rolled.
 
-def roll_dice(d, faces):
+def dice_type(d, faces):
     d['face'] = random.randint(1, faces)
 
 
@@ -31,7 +31,7 @@ def may_reroll_failed(d):
 
 all_dice_rules = {
     f.__name__: f for f in [
-        roll_dice,
+        dice_type,
         threshold,
         one_always_fails,
         may_reroll_ones,
